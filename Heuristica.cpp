@@ -1,6 +1,6 @@
-#include "Two_opt.h"
+#include "Heuristica.h"
 
-Two_opt::Two_opt (MatrizCosto* matriz, int maxIter, vector<int> tour, double cost) {
+Heuristica::Heuristica (MatrizCosto* matriz, int maxIter, vector<int> tour, double cost) {
 	this->tour = tour;
 	this->matrizCostos = matriz;
 	int iter = 0;
@@ -19,7 +19,7 @@ Two_opt::Two_opt (MatrizCosto* matriz, int maxIter, vector<int> tour, double cos
 	cout << "Costo 2-opt = " << cost << endl;
 }
 
-vector<int> Two_opt::two_opt_first(vector<int> tour) {
+vector<int> Heuristica::two_opt_first(vector<int> tour) {
     vector<int> new_tour(tour);
 	double** c = this->matrizCostos->getMatriz();
 	int n = this->matrizCostos->getSize();
@@ -54,11 +54,11 @@ vector<int> Two_opt::two_opt_first(vector<int> tour) {
     return(new_tour);
 }
 
-vector<int> Two_opt::getTour () {
+vector<int> Heuristica::getTour () {
 	return this->tour;
 }
 
-double Two_opt::tour_cost(vector<int> tour) {
+double Heuristica::tour_cost(vector<int> tour) {
 	double** c = this->matrizCostos->getMatriz();
 	int n = this->matrizCostos->getSize();
     double cost = 0.0;
