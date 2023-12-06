@@ -12,8 +12,10 @@ int main () {
 
 	Two_opt dosOpt(matriz, 300, golosino.getTour(), costoGoloso);
 	
-	ACO hormiguitas(matriz, golosino.getTour());
+	ACO hormiguitas(matriz);
 	hormiguitas.generateAntPaths(300);
+	hormiguitas.encontrarTour();
+	cout << "Costo Hormigas = " << hormiguitas.tour_cost(hormiguitas.getTour()) << endl;
 	hormiguitas.print();
 	return 0;
 }

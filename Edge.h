@@ -16,11 +16,11 @@ class Edge {
 		// Atributos
 		int i;
 		int j;
-		int probability;
+		double probability;
 
 		// Metodos
 		// Constructor
-		Edge(int i, int j, int probability);
+		Edge(int i, int j, double probability);
 };
 
 #endif /* EDGE_H */

@@ -2,6 +2,7 @@
 #include <vector>
 #include <set>
 #include <cmath>
+#include <cstdlib>
 #include <ctime>
 #include "MatrizCosto.h"
 #include "Edge.h"
@@ -16,10 +17,12 @@ class ACO {
 		double** pheromones;
 		vector<vector<int>> antPaths;
 	public:
-		ACO(MatrizCosto* matrix, vector<int> tour);
+		ACO(MatrizCosto* matrix);
 		void generateAntPaths(int totalAnts);
+		void eliminarNodo(int node);
 		void addPheromones();
-		double probability();
+		void encontrarTour();
+		void probability(int node);
 		MatrizCosto* getCosts();
 		double** getPheromones();
 		vector<int> getTour();

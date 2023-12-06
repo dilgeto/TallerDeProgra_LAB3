@@ -7,11 +7,11 @@
 using namespace std;
 
 class MatrizCosto {
-	private:
+	public:
 		int size;
 		double** matriz;
 
-	public:
+	//public:
 		MatrizCosto(string filename);
 		int getSize();
 		double** getMatriz();
