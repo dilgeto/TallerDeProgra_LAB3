@@ -1,6 +1,6 @@
 #include <iostream>
-#include <time>
 #include <vector>
+#include <ctime>
 #include "MatrizCosto.h"
 
 using namespace std;
@@ -11,7 +11,8 @@ class Aleatorio {
 		MatrizCosto* matriz;
 		vector<int> candidatos;
 	public:
-		Aleatorio(MatrizCosto matriz, int largo);
+		Aleatorio(MatrizCosto* matriz, int largo);
 		MatrizCosto* getMatriz();
 		vector<int> getTour();
+		double tour_cost();
 };

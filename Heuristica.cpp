@@ -5,7 +5,7 @@ Heuristica::Heuristica (MatrizCosto* matriz, int maxIter, vector<int> tour, doub
 	this->matrizCostos = matriz;
 	int iter = 0;
 	while (iter < maxIter) {
-		vector<int> new_tour(two_opt_first(tour));
+		vector<int> new_tour(heuristica_first(tour));
 		double new_cost = tour_cost(new_tour);
 		if (new_cost < cost) {
 			tour = new_tour;
@@ -19,7 +19,7 @@ Heuristica::Heuristica (MatrizCosto* matriz, int maxIter, vector<int> tour, doub
 	cout << "Costo 2-opt = " << cost << endl;
 }
 
-vector<int> Heuristica::two_opt_first(vector<int> tour) {
+vector<int> Heuristica::heuristica_first(vector<int> tour) {
     vector<int> new_tour(tour);
 	double** c = this->matrizCostos->getMatriz();
 	int n = this->matrizCostos->getSize();

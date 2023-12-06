@@ -11,8 +11,8 @@
 	* Retorna:
 	*	- void
 */
-Edge::Edge (int i, int j, int cost) {
+Edge::Edge (int i, int j, int probability) {
 	this->i = i;
 	this->j = j;
-	this->cost = cost;
+	this->probability = probability;
 }
