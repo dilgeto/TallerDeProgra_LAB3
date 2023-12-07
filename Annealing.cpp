@@ -1,11 +1,11 @@
-#include "Heuristica.h"
+#include "Annealing.h"
 
-Heuristica::Heuristica (MatrizCosto* matriz, int maxIter, vector<int> tour, double cost) {
+Annealing::Annealing (MatrizCosto* matriz, int maxIter, vector<int> tour, double cost) {
 	this->tour = tour;
 	this->matrizCostos = matriz;
 	int iter = 0;
 	while (iter < maxIter) {
-		vector<int> new_tour(heuristica_first(tour));
+		vector<int> new_tour(two_opt_first(tour));
 		double new_cost = tour_cost(new_tour);
 		if (new_cost < cost) {
 			tour = new_tour;
@@ -16,10 +16,10 @@ Heuristica::Heuristica (MatrizCosto* matriz, int maxIter, vector<int> tour, doub
         	}
         	iter++;
     	}
-	cout << "Costo 2-opt = " << cost << endl;
+	cout << "Costo Annealing = " << cost << endl;
 }
 
-vector<int> Heuristica::heuristica_first(vector<int> tour) {
+vector<int> Annealing::two_opt_first(vector<int> tour) {
     vector<int> new_tour(tour);
 	double** c = this->matrizCostos->getMatriz();
 	int n = this->matrizCostos->getSize();
@@ -54,11 +54,11 @@ vector<int> Heuristica::heuristica_first(vector<int> tour) {
     return(new_tour);
 }
 
-vector<int> Heuristica::getTour () {
+vector<int> Annealing::getTour () {
 	return this->tour;
 }
 
-double Heuristica::tour_cost(vector<int> tour) {
+double Annealing::tour_cost(vector<int> tour) {
 	double** c = this->matrizCostos->getMatriz();
 	int n = this->matrizCostos->getSize();
     double cost = 0.0;

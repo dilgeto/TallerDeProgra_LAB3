@@ -16,11 +16,11 @@ class ACO {
 		MatrizCosto* costs;
 		double** pheromones;
 		vector<vector<int>> antPaths;
+		int size;
 	public:
 		ACO(MatrizCosto* matrix);
 		void generateAntPaths(int totalAnts);
 		void eliminarNodo(int node);
-		void addPheromones();
 		void encontrarTour();
 		void probability(int node);
 		MatrizCosto* getCosts();
