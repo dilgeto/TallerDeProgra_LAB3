@@ -4,6 +4,7 @@
 // TODO: Desvanecimineto de feromonas
 // TODO: Usar 2-opt aleatorio para llegar soluciones buenas distintas.
 
+//
 ACO::ACO (MatrizCosto* matrix) {
 	this->costs = matrix;
 	pheromones = new double*[matrix->getSize()];
@@ -70,6 +71,7 @@ void ACO::eliminarNodo (int node) {
 	}
 }
 
+//
 void ACO::probability (int node) {
 	double alpha = 1.0;
 	double beta = 1.0;
@@ -149,18 +151,22 @@ void ACO::probability (int node) {
 	//cout << "Nodo numero: " << tour.size() << endl;
 }
 
+//
 MatrizCosto* ACO::getCosts () {
 	return this->costs;
 }
 
+//
 double** ACO::getPheromones () {
 	return this->pheromones;
 }
 
+//
 vector<int> ACO::getTour () {
 	return this->tour;
 }
 
+//
 double ACO::tour_cost (vector<int> antTour) {
 	double** c = getCosts()->getMatriz();
 	int n = getCosts()->getSize();
@@ -172,14 +178,10 @@ double ACO::tour_cost (vector<int> antTour) {
     return cost;
 }
 
+//
 void ACO::print () {
 	for (auto it = tour.begin() ; it != tour.end() ; ++it) {
 		cout << (*it) << " ";
 	}
 	cout << endl;
 }
-
-
-
-
-
