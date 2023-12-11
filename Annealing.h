@@ -11,7 +11,7 @@ class Annealing {
 	public:
 		Annealing(MatrizCosto* matriz, int maxIter, vector<int> tour, double cost);
 		vector<int> two_opt_first(vector<int> tour);
-		vector<int> aleatoriedad(vector<int> tour);
+		vector<int> annealing(vector<int> tour);
 		vector<int> getTour();
 		double tour_cost(vector<int> tour);
 };

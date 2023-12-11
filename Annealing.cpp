@@ -14,12 +14,102 @@ Annealing::Annealing (MatrizCosto* matriz, int maxIter, vector<int> tour, double
         } 
 		iter++;
     }
-	cout << "Costo Annealing = " << cost << endl;
+	vector<double> tours_annealing;
+	
+	int iteraciones = 0;
+	iter = 0;
+	// TODO: Siempre iterar sobre el mejor
+	while (iter < 10) {
+		// Cantidad de vertices que se cambian
+		for (int i = 0 ; i < 4 ; i++) {
+			vector<int> new_tour(annealing(tour));
+			double new_cost = tour_cost(new_tour);	
+			tour = new_tour;
+			cost = new_cost;
+		}
+		while (iteraciones < maxIter) {
+			vector<int> new_tour(two_opt_first(tour));
+			double new_cost = tour_cost(new_tour);
+			if (new_cost < cost) {
+				tour = new_tour;
+				cost = new_cost;
+			}
+			iteraciones++;
+		}
+		iter++;
+		tours_annealing.push_back(cost);
+	}
+	
+	double menor = tours_annealing[0];
+	for (auto it = tours_annealing.begin() ; it != tours_annealing.end() ; ++it) {
+		cout << (*it) << endl;
+		if (menor > (*it)) {
+			menor = (*it);
+		}
+	}
+	cout << "Costo Annealing = " << menor << endl;
 }
 
 //
-vector<int> Annealing::two_opt_first(vector<int> tour) {
+vector<int> Annealing::annealing(vector<int> tour) {
 	srand(static_cast<unsigned int>(time(0)));
+    vector<int> new_tour(tour);
+	int n = this->matrizCostos->getSize();
+
+	int N = n - 1;
+
+	int i = rand() % N;
+	
+	int I = n - i;
+
+	int j = rand() % I + i;
+
+	int k = i+1;
+	int l = j;
+	while(k < l) {
+		int temp = new_tour[k];
+		new_tour[k] = new_tour[l];
+		new_tour[l] = temp;
+		k++;
+		l--;
+	}
+	/*
+	if (p >= 1) {
+		int k = i+1;
+		int l = j;
+		while(k < l) {
+			int temp = new_tour[k];
+            new_tour[k] = new_tour[l];
+			new_tour[l] = temp;
+            k++;
+            l--;
+        }
+		//cout << tour_cost(new_tour) << endl;
+
+	} else {
+		int randomInt = rand();
+		double q = (double)randomInt / RAND_MAX;
+		if (q < p) {
+			int k = i+1;
+			int l = j;
+			while(k < l) {
+				int temp = new_tour[k];
+				new_tour[k] = new_tour[l];
+				new_tour[l] = temp;
+				k++;
+				l--;
+			}
+		}
+		//cout << tour_cost(new_tour) << endl;
+		return(new_tour);
+	}
+	*/
+    return(new_tour);
+}
+
+
+//
+vector<int> Annealing::two_opt_first(vector<int> tour) {
     vector<int> new_tour(tour);
 	double** c = this->matrizCostos->getMatriz();
 	int n = this->matrizCostos->getSize();
@@ -32,9 +122,6 @@ vector<int> Annealing::two_opt_first(vector<int> tour) {
             // se crea la aristas: (i,j) (i+1,j+1)
             double new_cost = c[new_tour[i]][new_tour[j]] + c[new_tour[i+1]][new_tour[(j+1)%n]];
             
-			//double p = cost / new_cost;
-			//cout << cost << "     " << new_cost << endl;
-
             if(new_cost < current_cost) {// va a bajar el costo total del tour
                 // se destruye la aristas: (i,i+1) (j,j+1)
                 // se crea la aristas: (i,j) (i+1,j+1)
