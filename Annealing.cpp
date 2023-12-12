@@ -14,55 +14,84 @@ Annealing::Annealing (MatrizCosto* matriz, int maxIter, vector<int> tour, double
         } 
 		iter++;
     }
-	vector<double> tours_annealing;
+	cout << "Tour 2-opt: ";
+	for (int i = 0 ; i < 100 ; i++) {
+		cout << tour[i] << " ";
+	}
+	cout << endl;
+
+
+	vector<double> costs_annealing;
+	vector<vector<int>> tours_annealing;
+	vector<int> tour_menor;
 	
 	int iteraciones = 0;
 	iter = 0;
 	// TODO: Siempre iterar sobre el mejor
-	while (iter < 10) {
-		// Cantidad de vertices que se cambian
-		for (int i = 0 ; i < 4 ; i++) {
-			vector<int> new_tour(annealing(tour));
-			double new_cost = tour_cost(new_tour);	
-			tour = new_tour;
-			cost = new_cost;
-		}
-		while (iteraciones < maxIter) {
-			vector<int> new_tour(two_opt_first(tour));
-			double new_cost = tour_cost(new_tour);
-			if (new_cost < cost) {
+	for (int j = 0 ; j < 10 ; j++) {
+		tours_annealing.clear();
+		costs_annealing.clear();
+		while (iter < 10) {
+			// Cantidad de vertices que se cambian
+			for (int i = 0 ; i < 5 ; i++) {
+				vector<int> new_tour(annealing(tour));
+				double new_cost = tour_cost(new_tour);	
 				tour = new_tour;
 				cost = new_cost;
 			}
-			iteraciones++;
+
+			while (iteraciones < maxIter) {
+				vector<int> new_tour(two_opt_first(tour));
+				double new_cost = tour_cost(new_tour);
+				if (new_cost < cost) {
+					tour = new_tour;
+					cost = new_cost;
+				}
+				iteraciones++;
+			}
+			iter++;
+			tours_annealing.push_back(tour);
+			costs_annealing.push_back(cost);
 		}
-		iter++;
-		tours_annealing.push_back(cost);
+		
+		double menor = costs_annealing[0];
+		// TODO:
+		tour_menor = tours_annealing[0];
+		for (int it = 0 ; it < 10 ; it++) {
+			if (menor > costs_annealing[it]) {
+				menor = costs_annealing[it];
+				tour_menor = tours_annealing[it];
+			}
+		}
+		cost = menor;
+		cout << "El mejor del lote = " << cost << endl;
 	}
 	
-	double menor = tours_annealing[0];
-	for (auto it = tours_annealing.begin() ; it != tours_annealing.end() ; ++it) {
-		cout << (*it) << endl;
-		if (menor > (*it)) {
-			menor = (*it);
-		}
+	
+	cout << "Costo Annealing = " << cost << endl;
+	cout << "Tour menor: ";
+	for (auto it = tour.begin() ; it != tour.end() ; ++it) {
+		cout << (*it) << " ";
 	}
-	cout << "Costo Annealing = " << menor << endl;
+	cout << endl;	
 }
 
 //
 vector<int> Annealing::annealing(vector<int> tour) {
-	srand(static_cast<unsigned int>(time(0)));
     vector<int> new_tour(tour);
 	int n = this->matrizCostos->getSize();
 
-	int N = n - 1;
+	random_device dev;
+	mt19937 rng(dev());
+	uniform_int_distribution<> dis(0, n - 2);
 
-	int i = rand() % N;
-	
-	int I = n - i;
+	int i = dis(rng);
+	uniform_int_distribution<> das(i + 1, n - 1);
+	int j = das(rng);
 
-	int j = rand() % I + i;
+	if (i >= j) {
+		cout << endl << endl << "CAGASTE" << endl << endl;
+	}
 
 	int k = i+1;
 	int l = j;
@@ -73,37 +102,7 @@ vector<int> Annealing::annealing(vector<int> tour) {
 		k++;
 		l--;
 	}
-	/*
-	if (p >= 1) {
-		int k = i+1;
-		int l = j;
-		while(k < l) {
-			int temp = new_tour[k];
-            new_tour[k] = new_tour[l];
-			new_tour[l] = temp;
-            k++;
-            l--;
-        }
-		//cout << tour_cost(new_tour) << endl;
-
-	} else {
-		int randomInt = rand();
-		double q = (double)randomInt / RAND_MAX;
-		if (q < p) {
-			int k = i+1;
-			int l = j;
-			while(k < l) {
-				int temp = new_tour[k];
-				new_tour[k] = new_tour[l];
-				new_tour[l] = temp;
-				k++;
-				l--;
-			}
-		}
-		//cout << tour_cost(new_tour) << endl;
-		return(new_tour);
-	}
-	*/
+	
     return(new_tour);
 }
 
@@ -159,3 +158,37 @@ double Annealing::tour_cost(vector<int> tour) {
     cost += c[tour[n-1]][tour[0]];
     return cost;
 }
+
+
+
+/*
+	if (p >= 1) {
+		int k = i+1;
+		int l = j;
+		while(k < l) {
+			int temp = new_tour[k];
+            new_tour[k] = new_tour[l];
+			new_tour[l] = temp;
+            k++;
+            l--;
+        }
+		//cout << tour_cost(new_tour) << endl;
+
+	} else {
+		int randomInt = rand();
+		double q = (double)randomInt / RAND_MAX;
+		if (q < p) {
+			int k = i+1;
+			int l = j;
+			while(k < l) {
+				int temp = new_tour[k];
+				new_tour[k] = new_tour[l];
+				new_tour[l] = temp;
+				k++;
+				l--;
+			}
+		}
+		//cout << tour_cost(new_tour) << endl;
+		return(new_tour);
+	}
+	*/

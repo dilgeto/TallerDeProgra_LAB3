@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <random>
 #include "MatrizCosto.h"
 
 using namespace std;
