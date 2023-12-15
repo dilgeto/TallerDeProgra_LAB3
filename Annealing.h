@@ -5,14 +5,22 @@
 
 using namespace std;
 
+/*
+	* Clase
+ */
 class Annealing {
-	private:
+	public:
+		// Atributos
 		vector<int> tour;
 		MatrizCosto* matrizCostos;
-	public:
+
+		// Métodos
+		// Constructor
 		Annealing(MatrizCosto* matriz, int maxIter, vector<int> tour, double cost);
+
+		// Otros Métodos
 		vector<int> two_opt_first(vector<int> tour);
-		vector<int> annealing(vector<int> tour);
-		vector<int> getTour();
+		vector<int> vertices_aleatorios(vector<int> tour);
+		int buscar_menor_tour(vector<double> costs);
 		double tour_cost(vector<int> tour);
 };

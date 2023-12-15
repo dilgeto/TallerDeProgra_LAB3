@@ -1,0 +1,5 @@
+#include "Annealing.h"
+
+int main () {
+	return 0;
+}

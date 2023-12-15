@@ -4,13 +4,20 @@
 
 using namespace std;
 
+/*
+	* Clase
+ */
 class Two_opt{
-	private:
+	public:
+		// Atributos
 		vector<int> tour;
 		MatrizCosto* matrizCostos;
-	public:
+
+		// Métodos
+		// Constructor
 		Two_opt(MatrizCosto* matriz, int maxIter, vector<int> tour, double cost);
+
+		// Otros Métodos
 		vector<int> two_opt_first(vector<int> tour);
-		vector<int> getTour();
 		double tour_cost(vector<int> tour);
 };

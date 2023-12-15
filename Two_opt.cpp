@@ -1,5 +1,11 @@
 #include "Two_opt.h"
 
+/*
+	* Método: 
+	* Descripción: 
+	* Parámetros: 
+	* Retorna: 
+*/
 Two_opt::Two_opt (MatrizCosto* matriz, int maxIter, vector<int> tour, double cost) {
 	this->tour = tour;
 	this->matrizCostos = matriz;
@@ -10,19 +16,25 @@ Two_opt::Two_opt (MatrizCosto* matriz, int maxIter, vector<int> tour, double cos
 		if (new_cost < cost) {
 			tour = new_tour;
 			cost = new_cost;
-            		//cout << iter << ") Cost: " << cost << endl;
-        	} else {
-            		//cout << iter << ") No improvement: " << cost << endl;
-        	}
-        	iter++;
-    	}
+       		//cout << iter << ") Cost: " << cost << endl;
+       	} else {
+       		//cout << iter << ") No improvement: " << cost << endl;
+       	}
+       	iter++;
+   	}
 	cout << "Costo 2-opt = " << cost << endl;
 }
 
+/*
+	* Método: 
+	* Descripción: 
+	* Parámetros: 
+	* Retorna: 
+*/
 vector<int> Two_opt::two_opt_first(vector<int> tour) {
     vector<int> new_tour(tour);
-	double** c = this->matrizCostos->getMatriz();
-	int n = this->matrizCostos->getSize();
+	double** c = this->matrizCostos->matriz;
+	int n = this->matrizCostos->size;
     for(int i = 0 ; i < n - 1 ; i++) {
         for(int j = i + 1 ; j < n ; j++) {
             // iteramos sobre todos los pares de aristas (i,i+1) y (j,j+1)
@@ -54,13 +66,15 @@ vector<int> Two_opt::two_opt_first(vector<int> tour) {
     return(new_tour);
 }
 
-vector<int> Two_opt::getTour () {
-	return this->tour;
-}
-
+/*
+	* Método: 
+	* Descripción: 
+	* Parámetros: 
+	* Retorna: 
+*/
 double Two_opt::tour_cost(vector<int> tour) {
-	double** c = this->matrizCostos->getMatriz();
-	int n = this->matrizCostos->getSize();
+	double** c = this->matrizCostos->matriz;
+	int n = this->matrizCostos->size;
     double cost = 0.0;
     for (int i = 0 ; i < n - 1 ; i++) {
         cost += c[tour[i]][tour[i+1]];

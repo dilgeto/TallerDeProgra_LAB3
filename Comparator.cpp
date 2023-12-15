@@ -12,5 +12,5 @@
 	*		otro caso.
  */
 bool Comparator::operator ()(const Edge* a, const Edge*b) const {
-	return a->probability < b->probability;
+	return a->cost < b->cost;
 }

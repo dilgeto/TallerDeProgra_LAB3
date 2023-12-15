@@ -6,17 +6,20 @@
 
 using namespace std;
 
+/*
+	* Clase
+ */
 class MatrizCosto {
 	public:
+		// Atributos
 		int size;
 		double** matriz;
 
-	//public:
+		// Métodos
+		// Constructor
 		MatrizCosto(string filename);
-		int getSize();
-		double** getMatriz();
-		void setSize(int size);
-		void setCosto(int i, int j, double costo);
+		
+		// Otros Métodos
 		void printDatos();
 };
 #endif /* MATRIZCOSTO_H */

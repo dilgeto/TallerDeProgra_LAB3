@@ -9,18 +9,18 @@ using namespace std;
 	* Esta clase es usada para representar las aristas en el árbol,
 	* presentando un nodo de inicio, otro de destino y el costo.
 	* Clase que está representada por 3 enteros, siendo "i" el nodo
-	* de inicio, "j" el nodo de destino y "cost" el costo asociado.
+	* de inicio, "j" el nodo de destino y "probability" el costo asociado.
  */
 class Edge {
 	public:
 		// Atributos
 		int i;
 		int j;
-		double probability;
+		double cost;
 
 		// Metodos
 		// Constructor
-		Edge(int i, int j, double probability);
+		Edge(int i, int j, double cost);
 };
 
 #endif /* EDGE_H */

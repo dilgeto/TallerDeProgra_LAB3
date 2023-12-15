@@ -1,10 +1,19 @@
 #include "MatrizCosto.h"
 
+/*
+	* Método: Constructor->MatrizCosto
+	* Descripción: Crea la clase MatrizCosto, sobre el cual se guardan los costos
+	* de viajar entre dos vértices para cada par.
+	* Parámetros: 
+	*	- filename: nombre del archivo que se leerá.
+	* Retorna: 
+	*	- void
+*/
 MatrizCosto::MatrizCosto (string filename) {
 	ifstream file_obj(filename);
 	int n = 0;
     file_obj>>n;
-	setSize(n);
+	size = n;
     matriz = new double*[n]; // memoria para todas las filas
     for(int i = 0 ; i < n ; i++) {
         matriz[i] = new double[n]; // inicializar a nullptr
@@ -21,22 +30,14 @@ MatrizCosto::MatrizCosto (string filename) {
     file_obj.close();
 }
 
-int MatrizCosto::getSize () {
-	return this->size;
-}
-
-double** MatrizCosto::getMatriz () {
-	return this->matriz;
-}
-
-void MatrizCosto::setSize (int size) {
-	this->size = size;
-}
-
-void MatrizCosto::setCosto (int i, int j, double costo) {
-	this->matriz[i][j] = costo;
-}
-
+/*
+	* Método: Otros Métodos->printDatos
+	* Descripción: Muestra los costos de cada par de vértices.
+	* Parámetros: 
+	*	- void
+	* Retorna:
+	*	- void
+*/
 void MatrizCosto::printDatos () {
 	cout << "n=" << size << endl;
     for(int i = 0 ; i < size ; i++){
