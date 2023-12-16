@@ -26,6 +26,7 @@ Two_opt::Two_opt (MatrizCosto* matriz, int maxIter, vector<int> tour, double cos
        	}
        	iter++;
    	}
+	this->tour = tour;
 }
 
 /*
