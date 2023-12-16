@@ -7,9 +7,9 @@
 using namespace std;
 
 /*
-	* Clase Annealing:
+	* Clase Heuristica:
 	* Esta clase es usada para resolver el problema del vendedor viajero (TSP) 
-	* utilizando una versión modificada de la heurística de Annealing, basándose
+	* utilizando una versión modificada de la heurística de Heuristica, basándose
 	* en la heurística 2-opt. Funciona de la misma forma que 2-opt, pero cuando
 	* no se logra encontrar un tour de menor costo, se realiza una permutación 
 	* aleatoria de los nodos, esto se repite hasta completar todas las iteraciones,
@@ -19,7 +19,7 @@ using namespace std;
 	* actualizando conforme se avanza en el algoritmo y la matriz de costos
 	* que contiene el costo de viajar entre cualquier par de nodos.
  */
-class Annealing {
+class Heuristica {
 	public:
 		// Atributos
 		vector<int> tour;
@@ -27,7 +27,7 @@ class Annealing {
 
 		// Métodos
 		// Constructor
-		Annealing(MatrizCosto* matriz, int maxIter, vector<int> tour, double cost, double minimo);
+		Heuristica(MatrizCosto* matriz, int maxIter, vector<int> tour, double cost, double minimo);
 
 		// Otros Métodos
 		vector<int> two_opt_first(vector<int> tour);

@@ -1,9 +1,9 @@
 FLAGS= -g -Wall
 
-all: test_Edge test_Goloso test_Two_opt test_MatrizCosto test_Prim test_Annealing main 
+all: test_Edge test_Goloso test_Two_opt test_MatrizCosto test_Prim test_Heuristica main 
 
-main: main.cpp Goloso.o Two_opt.o Annealing.o MatrizCosto.o Comparator.o Edge.o Prim.o
-	g++ ${FLAGS} Goloso.o Two_opt.o Annealing.o MatrizCosto.o Comparator.o Edge.o Prim.o main.cpp -o MAIN
+main: main.cpp Goloso.o Two_opt.o Heuristica.o MatrizCosto.o Comparator.o Edge.o Prim.o
+	g++ ${FLAGS} Goloso.o Two_opt.o Heuristica.o MatrizCosto.o Comparator.o Edge.o Prim.o main.cpp -o MAIN
 test_Edge: Edge.o test_Edge.cpp
 	g++ ${FLAGS} Edge.o test_Edge.cpp -o test_Edge
 test_Goloso: MatrizCosto.o Goloso.o test_Goloso.cpp
@@ -14,14 +14,14 @@ test_MatrizCosto: MatrizCosto.o test_MatrizCosto.cpp
 	g++ ${FLAGS} MatrizCosto.o test_MatrizCosto.cpp -o test_MatrizCosto
 test_Prim: MatrizCosto.o Edge.o Comparator.o Prim.o test_Prim.cpp
 	g++ ${FLAGS} MatrizCosto.o Edge.o Comparator.o Prim.o test_Prim.cpp -o test_Prim
-test_Annealing: MatrizCosto.o Annealing.o test_Annealing.cpp
-	g++ ${FLAGS} MatrizCosto.o Annealing.o test_Annealing.cpp -o test_Annealing
+test_Heuristica: MatrizCosto.o Heuristica.o test_Heuristica.cpp
+	g++ ${FLAGS} MatrizCosto.o Heuristica.o test_Heuristica.cpp -o test_Heuristica
 Goloso.o: Goloso.cpp Goloso.h
 	g++ ${FLAGS} -c Goloso.cpp
 Two-opt.o: Two_opt.cpp Two_opt.h
 	g++ ${FLAGS} -c Two_opt.cpp
-Annealing.o: Annealing.cpp Annealing.h
-	g++ ${FLAGS} -c Annealing.cpp
+Heuristica.o: Heuristica.cpp Heuristica.h
+	g++ ${FLAGS} -c Heuristica.cpp
 MatrizCosto.o: MatrizCosto.cpp MatrizCosto.h
 	g++ ${FLAGS} -c MatrizCosto.cpp
 Edge.o: Edge.cpp Edge.h
@@ -33,4 +33,4 @@ Prim.o: Prim.cpp Prim.h
 Tour.o: Tour.cpp Tour.h
 	g++ ${FLAGS} -c Tour.cpp
 clean:
-	rm -f *.o MAIN test_Edge test_Goloso test_Two_opt test_MatrizCosto test_Prim test_Annealing
+	rm -f *.o MAIN test_Edge test_Goloso test_Two_opt test_MatrizCosto test_Prim test_Heuristica

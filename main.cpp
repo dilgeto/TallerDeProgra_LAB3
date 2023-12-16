@@ -3,7 +3,7 @@
 #include "MatrizCosto.h"
 #include "Goloso.h"
 #include "Two_opt.h"
-#include "Annealing.h"
+#include "Heuristica.h"
 #include "Prim.h"
 
 using namespace std;
@@ -55,7 +55,7 @@ int main () {
 				// Inicio del tiempo
 				auto start = high_resolution_clock::now();
 				// Se encuentra un tour con la heurística.
-				Annealing annealing(matriz, iteraciones, dosOpt.tour, dosOpt.tour_cost(dosOpt.tour), minimo);
+				Heuristica heuristica(matriz, iteraciones, dosOpt.tour, dosOpt.tour_cost(dosOpt.tour), minimo);
 				// Término del tiempo
 				auto stop = high_resolution_clock::now();
 				auto duration = duration_cast<milliseconds>(stop - start);
@@ -65,9 +65,9 @@ int main () {
 				cout << "Costo Minimo por MST = " << minimo << endl;
 				cout << "Costo Goloso = " << costoGoloso << endl;
 				cout << "Costo 2-opt = " << dosOpt.tour_cost(dosOpt.tour) << endl;
-				annealing.print_tour();
+				heuristica.print_tour();
 				// Comparaciones de GAP
-				cout << endl << "El GAP final con la solucion encontrada es: " << annealing.tour_cost(annealing.tour) - minimo << endl;
+				cout << endl << "El GAP final con la solucion encontrada es: " << heuristica.tour_cost(heuristica.tour) - minimo << endl;
 				cout << endl << endl;
 
 			}

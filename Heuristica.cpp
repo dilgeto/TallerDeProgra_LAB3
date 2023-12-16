@@ -1,8 +1,8 @@
-#include "Annealing.h"
+#include "Heuristica.h"
 
 /*
-	* Método: Constructor->Annealing
-	* Descripción: Crea la clase Annealing, que busca un tour con el menor costo
+	* Método: Constructor->Heuristica
+	* Descripción: Crea la clase Heuristica, que busca un tour con el menor costo
 	* posible, basado en el tour obtenido por la heurística 2-opt.
 	* Parámetros: 
 	*	- matriz: una clase matriz que contiene los costos entre todos los vértices.
@@ -13,7 +13,7 @@
 	* Retorna: 
 	*	- void
 */
-Annealing::Annealing (MatrizCosto* matriz, int maxIter, vector<int> tour, double cost, double minimo) {
+Heuristica::Heuristica (MatrizCosto* matriz, int maxIter, vector<int> tour, double cost, double minimo) {
 	this->tour = tour;
 	this->matrizCostos = matriz;
 	int size = this->tour.size();
@@ -78,7 +78,7 @@ Annealing::Annealing (MatrizCosto* matriz, int maxIter, vector<int> tour, double
 	* Retorna: 
 	*	- int: representa la posición en el vector.
 */
-int Annealing::buscar_menor_tour (vector<double> costs) {
+int Heuristica::buscar_menor_tour (vector<double> costs) {
 	double menor = costs[0];
 	int posicion = 0;
 	int size = costs.size();
@@ -104,7 +104,7 @@ int Annealing::buscar_menor_tour (vector<double> costs) {
 	*	- new_tour: el tour ingresado pero posterior a la permutación de un par de
 	*		vértices.
 */
-vector<int> Annealing::vertices_aleatorios(vector<int> tour, int aleatoriedad) {
+vector<int> Heuristica::vertices_aleatorios(vector<int> tour, int aleatoriedad) {
     vector<int> new_tour(tour);
 	int n = this->matrizCostos->size;
 	if (aleatoriedad == 0) aleatoriedad = 1;
@@ -144,7 +144,7 @@ vector<int> Annealing::vertices_aleatorios(vector<int> tour, int aleatoriedad) {
 	* Retorna: 
 	*	- new_tour: el nuevo tour encontrado
 */
-vector<int> Annealing::two_opt_first(vector<int> tour) {
+vector<int> Heuristica::two_opt_first(vector<int> tour) {
     vector<int> new_tour(tour);
 	double** c = this->matrizCostos->matriz;
 	int n = this->matrizCostos->size;
@@ -188,7 +188,7 @@ vector<int> Annealing::two_opt_first(vector<int> tour) {
 	*	- cost: es el costo total que se obtiene al recorrer todo
 	*		el tour.
 */
-double Annealing::tour_cost(vector<int> tour) {
+double Heuristica::tour_cost(vector<int> tour) {
 	double** c = this->matrizCostos->matriz;
 	int n = this->matrizCostos->size;
     double cost = 0.0;
@@ -207,7 +207,7 @@ double Annealing::tour_cost(vector<int> tour) {
 	* Retorna:
 	*	- void
 */
-void Annealing::print_tour () {
+void Heuristica::print_tour () {
 	cout << "Costo con Annealing = " << tour_cost(tour) << endl;
 	cout << "Tour encontrado: ";
 	for (auto it = tour.begin() ; it != tour.end() ; ++it) {
