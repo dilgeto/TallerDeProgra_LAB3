@@ -30,16 +30,21 @@ int main () {
 			if (iteraciones < 0) {
 				cout << "El numero de iteraciones debe ser mayor que 0." << endl << endl;
 			} else {
+				Prim mst(entrada);
+				mst.resolve();
+				double minimo = mst.costoFinal;
+				cout << "Costo Minimo por MST = " << minimo << endl;
+				
 				MatrizCosto* matriz = new MatrizCosto(entrada);
 				Goloso golosino(matriz, 0);
 				double costoGoloso = golosino.tour_cost();
 				cout << "Costo Goloso = " << costoGoloso << endl;
 				Two_opt dosOpt(matriz, iteraciones, golosino.tour, costoGoloso);
+				cout << "Costo 2-opt = " << dosOpt.tour_cost(dosOpt.tour) << endl;
 			
-				Annealing ana(matriz, iteraciones, golosino.tour, costoGoloso);
-				Prim mst(entrada);
-				mst.resolve();
-				cout << "Costo Minimo por MST: " << mst.costoFinal << endl;
+				Annealing annealing(matriz, iteraciones, dosOpt.tour, dosOpt.tour_cost(dosOpt.tour), minimo);
+				annealing.print_tour();
+				cout << endl << endl;
 
 				// Comparaciones de GAP
 			}

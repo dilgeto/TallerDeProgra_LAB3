@@ -10,7 +10,7 @@ int main () {
 	 * Cuando se usa el constructor, lo que se hace es leer los archivos para determinar
 	 * la cantidad de nodos que posee, y con ello el tamano de la matriz.
 	 */
-	MatrizCosto matrizPrueba1("matrizEntrada1.txt");
+	MatrizCosto matrizPrueba1("ejemploMatriz1.txt");
 	/*	Cuando se realiza la funcion readFile, se lee cada elemento de la matriz
 	 *	de entrada, y se guarda en la clase, finalmente mostrando la cantidad de nodos que
 	 *	posee el archivo.
@@ -23,12 +23,12 @@ int main () {
 
 	// Este esto se repite para las otras dos matrices de prueba.
 	
-	MatrizCosto matrizPrueba2("matrizEntrada2.txt");
+	MatrizCosto matrizPrueba2("ejemploMatriz2.txt");
 	cout << "Matriz de prueba 2:" << endl;
 	matrizPrueba2.printDatos();
 	cout << endl; 
 	
-	MatrizCosto matrizPrueba3("matrizEntrada3.txt");
+	MatrizCosto matrizPrueba3("ejemploMatriz3.txt");
 	cout << "Matriz de prueba 3:" << endl;
 	matrizPrueba3.printDatos();
 	cout << endl; 

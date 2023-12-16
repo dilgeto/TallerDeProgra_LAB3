@@ -7,8 +7,13 @@ using namespace std;
 /*
 	* Clase Goloso:
 	* Esta clase se usa para obtener un tour de costo mínimo utilizando el 
-	* algoritmo Greedy (Goloso). Funciona buscando desde la posición actual
-	* la arista que tenga el menor costo hasta recorrer todos los nodos.
+	* algoritmo Greedy (Goloso) para resolver el problema del vendedor
+	* viajero (TSP). Funciona buscando desde la posición actual la arista
+	* que tenga el menor costo hasta recorrer todos los nodos.
+	* Esta clase está conformada por el tour encontrado, el cual tiene
+	* todas las tiendas que se deben visitar en orden, el costo de este
+	* tour y la matriz de costos que tiene lo que cuesta viajar entre
+	* cualquier par de tiendas.
  */
 class Goloso {
 	public:

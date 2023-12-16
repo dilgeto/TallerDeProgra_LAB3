@@ -7,8 +7,8 @@
  */
 int main () {
 	// Se crean los objetos
-	Prim ejemplo1("PrimTest1.txt");
-	Prim ejemplo2("PrimTest2.txt");
+	Prim ejemplo1("ejemploMatriz1.txt");
+	Prim ejemplo2("ejemploMatriz2.txt");
 
 	// Se muestra la matriz del primer ejemplo
 	cout << "Matriz del primer ejemplo:" << endl;

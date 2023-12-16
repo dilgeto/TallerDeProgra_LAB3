@@ -58,7 +58,7 @@ int Goloso::smaller_cost_neighbour (int i, vector<bool> visited) {
 	* Parámetros: 
 	* Retorna: 
 */
-double Goloso::tour_cost() {
+double Goloso::tour_cost () {
 	double** c = this->matrizCostos->matriz;
 	int n = this->matrizCostos->size;
     double cost = 0.0;

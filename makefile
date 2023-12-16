@@ -1,11 +1,9 @@
 FLAGS= -g -Wall
 
-all: test_Tour test_Edge test_Goloso test_Two_opt test_MatrizCosto test_Prim test_Annealing main 
+all: test_Edge test_Goloso test_Two_opt test_MatrizCosto test_Prim test_Annealing main 
 
 main: main.cpp Goloso.o Two_opt.o Annealing.o MatrizCosto.o Comparator.o Edge.o Prim.o
 	g++ ${FLAGS} Goloso.o Two_opt.o Annealing.o MatrizCosto.o Comparator.o Edge.o Prim.o main.cpp -o MAIN
-test_Tour: MatrizCosto.o Tour.o test_Tour.cpp
-	g++ ${FLAGS} MatrizCosto.o Tour.o test_Tour.cpp -o test_Tour
 test_Edge: Edge.o test_Edge.cpp
 	g++ ${FLAGS} Edge.o test_Edge.cpp -o test_Edge
 test_Goloso: MatrizCosto.o Goloso.o test_Goloso.cpp
@@ -32,5 +30,7 @@ Comparator.o: Comparator.cpp Comparator.h
 	g++ ${FLAGS} -c Comparator.cpp
 Prim.o: Prim.cpp Prim.h
 	g++ ${FLAGS} -c Prim.cpp
+Tour.o: Tour.cpp Tour.h
+	g++ ${FLAGS} -c Tour.cpp
 clean:
-	rm -f *.o MAIN test_Tour test_Edge test_Goloso test_Two_opt test_MatrizCosto test_Prim test_Annealing
+	rm -f *.o MAIN test_Edge test_Goloso test_Two_opt test_MatrizCosto test_Prim test_Annealing

@@ -3,7 +3,7 @@
 /*
 	* Método: Constructor->Annealing
 	* Descripción: Crea la clase Annealing, que busca un tour con el menor costo
-	* posible.
+	* posible, basado en el tour obtenido por la heurística 2-opt.
 	* Parámetros: 
 	*	- matriz: una clase matriz que contiene los costos entre todos los vértices.
 	*	- maxIter: cantidad de iteraciones que realizarán.
@@ -13,78 +13,61 @@
 	* Retorna: 
 	*	- void
 */
-Annealing::Annealing (MatrizCosto* matriz, int maxIter, vector<int> tour, double cost) {
+Annealing::Annealing (MatrizCosto* matriz, int maxIter, vector<int> tour, double cost, double minimo) {
 	this->tour = tour;
 	this->matrizCostos = matriz;
+	int size = this->tour.size();
+	// Representa la iteración en que se encuentra el algoritmo
 	int iter = 0;
+	// Representa los costos y los tours mínimos encontrados
 	vector<double> costs_annealing;
 	vector<vector<int>> tours_annealing;
-	
+	// Aquí se calcula que tan aleatorio es la elección de los nodos
+	// en cada iteración.
+	double aleatoriedad = ((double)size)/(double)maxIter;
+	double acumulador = round(aleatoriedad);
 	while (iter < maxIter) {
 		vector<int> new_tour(two_opt_first(tour));
 		double new_cost = tour_cost(new_tour);
-		
-		 if (iter == maxIter - 1) {
-			 tour = new_tour;
-			 cost = new_cost;
-			 tours_annealing.push_back(new_tour);
-			 costs_annealing.push_back(new_cost);
+
+		// Se agrega el último tour encontrado a tours_annealing y su costo a costs_annealing.
+		if (iter == maxIter - 1) {
+			tour = new_tour;
+			cost = new_cost;
+			tours_annealing.push_back(new_tour);
+			costs_annealing.push_back(new_cost);
+			// Se muestra el costo y el GAP asociados a esta iteración.
+       		cout << iter << ") Cost: " << cost << " | GAP: " << cost - minimo << endl;
+		// En caso de que el costo encontrado con 2-opt sea menor, se cambia el tour y costo actual.
 		} else if (new_cost < cost) {
 			tour = new_tour;
 			cost = new_cost;
-       		cout << iter << ") Cost: " << cost << endl;
+       		cout << iter << ") Cost: " << cost << " | GAP: " << cost - minimo << endl;
+		// Finalmente, en caso de que el costo no sea menor, se agrega el tour a tours_annealing 
+		// y se realiza un cambio entre dos vértices al azar.
 		} else {
-       		cout << iter << ") No improvement: " << cost << "    " << new_cost << endl;
 			tours_annealing.push_back(tour);
 			costs_annealing.push_back(cost);
-			tour = vertices_aleatorios(new_tour);
+			// Aquí el acumulador se redondea y pasa a ser un entero.
+			int acumuladorRedondeado = static_cast<int>(round(acumulador));
+
+			// Si el acumulador es un poco más pequeño que el número de nodos, entonces
+			// se disminuye el acumulador.
+			if (acumuladorRedondeado >= size - 2) {
+				tour = vertices_aleatorios(new_tour, acumuladorRedondeado - 2);
+			} else {
+				tour = vertices_aleatorios(new_tour, acumuladorRedondeado);
+			}
 			cost = tour_cost(tour);
+       		cout << iter << ") No improvement: " << cost << " | GAP: " << cost - minimo << endl;
 		}
 		iter++;
+		acumulador = acumulador + aleatoriedad;
     }
-	
+
+	// Se busca el tour con el menor costo entre los que se almacenaron y se guarda como el tour mínimo final.
 	int posicionMenor = buscar_menor_tour(costs_annealing);
-	tour = tours_annealing[posicionMenor];
-	cost = costs_annealing[posicionMenor];
-	//cout << "Cost 2-opt = " << cost << endl;
-
-	int iteraciones = 0;
-	iter = 0;
-	for (int j = 0 ; j < 10 ; j++) {
-		while (iter < 10) {
-			// Cantidad de vertices que se cambian
-			for (int i = 0 ; i < 2 ; i++) {
-				vector<int> new_tour(vertices_aleatorios(tour));
-				double new_cost = tour_cost(new_tour);	
-				tour = new_tour;
-				cost = new_cost;
-			}
-
-			while (iteraciones < maxIter) {
-				vector<int> new_tour(two_opt_first(tour));
-				double new_cost = tour_cost(new_tour);
-				if (new_cost < cost) {
-					tour = new_tour;
-					cost = new_cost;
-				}
-				iteraciones++;
-			}
-			iter++;
-			tours_annealing.push_back(tour);
-			costs_annealing.push_back(cost);
-		}
-
-		posicionMenor = buscar_menor_tour(costs_annealing);
-		tour = tours_annealing[posicionMenor];
-		cost = costs_annealing[posicionMenor];
-	}
-	
-	cout << "Costo con aleatoriedad = " << cost << endl;
-	cout << "Tour encontrado: ";
-	for (auto it = tour.begin() ; it != tour.end() ; ++it) {
-		cout << (*it) << " ";
-	}
-	cout << endl;
+	this->tour = tours_annealing[posicionMenor];
 }
 
 /*
@@ -110,25 +93,36 @@ int Annealing::buscar_menor_tour (vector<double> costs) {
 
 /*
 	* Método: Otros Métodos->vertices_aleatorios
-	* Descripción: 
+	* Descripción: En base a un tour de entrada, se realiza un intercambio de nodos
+	* aleatoriamente, dependiendo de la aleatoriedad con la que se trabaje.
 	* Parámetros: 
 	*	- tour: representa el conjunto de vértices que se va a modificar.
+	*	- aleatoriedad: define desde que nodo se puede seleccionar, haciendo que
+	*		mientras más iteraciones ocurran, menor va a ser el rango de nodos que
+	*		se puede elegir.
 	* Retorna: 
 	*	- new_tour: el tour ingresado pero posterior a la permutación de un par de
 	*		vértices.
 */
-vector<int> Annealing::vertices_aleatorios(vector<int> tour) {
+vector<int> Annealing::vertices_aleatorios(vector<int> tour, int aleatoriedad) {
     vector<int> new_tour(tour);
 	int n = this->matrizCostos->size;
-
+	if (aleatoriedad == 0) aleatoriedad = 1;
+	
+	// Se define la fuente de números aleatorios
 	random_device dev;
+	// Se define un generador
 	mt19937 rng(dev());
-	uniform_int_distribution<> disI(1, n - 2);
+	// Se define los rangos del número generado para la variable i
+	uniform_int_distribution<> disI(aleatoriedad, n - 2);
 
 	int i = disI(rng);
+	// Para que siempre sea un par de nodos válidos, j tiene que ser
+	// mayor que i.
 	uniform_int_distribution<> disJ(i + 1, n - 1);
 	int j = disJ(rng);
 
+	// Se realiza el cambio de aristas
 	int k = i+1;
 	int l = j;
 	while(k < l) {
@@ -138,7 +132,7 @@ vector<int> Annealing::vertices_aleatorios(vector<int> tour) {
 		k++;
 		l--;
 	}
-	
+	// Se retorna el nuevo tour
     return(new_tour);
 }
 
@@ -186,11 +180,13 @@ vector<int> Annealing::two_opt_first(vector<int> tour) {
 
 /*
 	* Método: Otros Métodos->tour_cost
-	* Descripción: Encuentra el costo total del tour ingresado.
+	* Descripción: Calcula cuanto es el costo de recorrer todo el tour de
+	* entrada y regresando al inicio.
 	* Parámetros: 
-	*	- tour: el conjunto de vértices que conforman un tour.
+	*	- tour: son todos los nodos (tiendas) en el orden que se recorren.
 	* Retorna: 
-	*	- cost: el costo final
+	*	- cost: es el costo total que se obtiene al recorrer todo
+	*		el tour.
 */
 double Annealing::tour_cost(vector<int> tour) {
 	double** c = this->matrizCostos->matriz;
@@ -203,45 +199,19 @@ double Annealing::tour_cost(vector<int> tour) {
     return cost;
 }
 
-
-
-	/*
-	if (p >= 1) {
-		int k = i+1;
-		int l = j;
-		while(k < l) {
-			int temp = new_tour[k];
-            new_tour[k] = new_tour[l];
-			new_tour[l] = temp;
-            k++;
-            l--;
-        }
-		//cout << tour_cost(new_tour) << endl;
-
-	} else {
-		int randomInt = rand();
-		double q = (double)randomInt / RAND_MAX;
-		if (q < p) {
-			int k = i+1;
-			int l = j;
-			while(k < l) {
-				int temp = new_tour[k];
-				new_tour[k] = new_tour[l];
-				new_tour[l] = temp;
-				k++;
-				l--;
-			}
-		}
-		//cout << tour_cost(new_tour) << endl;
-		return(new_tour);
-	}
-	*/
-
-
-
 /*
-	* Método: 
-	* Descripción: 
+	* Método: Otros Métodos->print_tour
+	* Descripción: Muestra el tour encontrado por el algoritmo, nodo por nodo.
 	* Parámetros: 
-	* Retorna: 
+	*	- void
+	* Retorna:
+	*	- void
 */
+void Annealing::print_tour () {
+	cout << "Costo con Annealing = " << tour_cost(tour) << endl;
+	cout << "Tour encontrado: ";
+	for (auto it = tour.begin() ; it != tour.end() ; ++it) {
+		cout << (*it) << " ";
+	}
+	cout << endl;
+}
